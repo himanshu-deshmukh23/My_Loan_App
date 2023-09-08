@@ -14,6 +14,11 @@ My Loan App is a simple web application built with Flask that allows users to ap
 - Weekly Installment Calculation
 - Payment Status Updates
 
+## Admin Credentials:
+
+ID: 'admin1'
+Password: 'myapp'
+
 ## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
