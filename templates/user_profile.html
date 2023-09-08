@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>User Profile</title>
+</head>
+<body>
+    <a href="{{ url_for('login') }}" class="btn btn-primary float-right">Login Page</a>
+    <div class="container">
+        <h1>User Profile<hr></h1>
+
+        <div class="user-info">
+            <h2>Welcome, {{ user.username }}!<br></h2>
+            <p>Not every interest free loan is a scam :)</p>
+        </div>
+
+        <h2>Apply for a Loan</h2>
+        <form method="POST" action="{{ url_for('apply_loan') }}">
+            <div class="form-group">
+                <label for="amount">Loan Amount:</label>
+                <input type="number" id="amount" name="amount" required>
+            </div>
+            <div class="form-group">
+                <label for="term">Loan Term (weeks):</label>
+                <input type="number" id="term" name="term" required>
+            </div>
+            <button type="submit">Apply for Loan</button>
+        </form>
+
+        <h2>Your Loans</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Loan Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for loan in loans %}
+                <tr>
+                    <td>{{ loan.amount }}</td>
+                    <td>{{ loan.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Your Due Installments</h2>
+        <table class="table">
+            <tbody>
+                {% for repayment in repayments %}
+                  <div class="repayment-item">
+                    <p>Date: {{ repayment.date }}</p>
+                    <p>Amount: {{ repayment.installment }}</p>
+                    <p>Status: {{ repayment.status }}</p>
+                    {% if repayment.status == 'PENDING' %}
+                      <form method="POST" action="{{ url_for('pay_repayment', repayment_id=repayment.id) }}">
+                        <input type="submit" value="Pay">
+                      </form>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% for message in get_flashed_messages() %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Admin Profile</title>
+</head>
+<body>
+    <a href="{{ url_for('login') }}" class="btn btn-primary float-right">Login Page</a>
+    <h1>Welcome, Admin!</h1>
+    <p>Here is the list of all applied loans:</p>
+
+        {% for message in get_flashed_messages() %}
+        <p>{{ message }}</p>
+        {% endfor %}
+
+    <h2>List of Loans</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Loan ID</th>
+                <th>User ID</th>
+                <th>Amount</th>
+                <th>Term</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for loan in loans %}
+            <tr>
+                <td>{{ loan.id }}</td>
+                <td>{{ loan.user_id }}</td>
+                <td>{{ loan.amount }}</td>
+                <td>{{ loan.term }}</td>
+                <td>{{ loan.status }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('update_loan_status', loan_id=loan.id) }}">
+                        <input type="hidden" name="new_status" value="Approved">
+                        <button type="submit">Approve</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
