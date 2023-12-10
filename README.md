@@ -1,5 +1,3 @@
-Certainly! Here's a sample `README.md` file for your project:
-
 ```markdown
 # My Loan App
 
